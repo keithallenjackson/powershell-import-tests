@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Management.Automation.Runspaces;
+using System.Threading;
+using System.Threading.Tasks;
 
 
 
@@ -28,7 +30,6 @@ namespace CSharpModule
 		protected override void BeginProcessing()
 		{
 			WriteVerbose("Begin!");
-			IAsyncEnumerable<string> myvar;
 		}
 
 		// This method will be called for each input received from the pipeline to this cmdlet; if no input is received, this method is not called
@@ -47,7 +48,30 @@ namespace CSharpModule
 		}
 	}
 
-	public class FavoriteStuff
+	public class MyAsyncEnumerable : IAsyncEnumerable<string>
+	{
+		public IAsyncEnumerator<string> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+		{
+			throw new NotImplementedException();
+		}
+	}
+
+    public class MyAsyncEnumerator : IAsyncEnumerator<string>
+    {
+        public string Current => throw new NotImplementedException();
+
+        public ValueTask DisposeAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public ValueTask<bool> MoveNextAsync()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class FavoriteStuff
 	{
 		public int FavoriteNumber { get; set; }
 		public string FavoritePet { get; set; }
