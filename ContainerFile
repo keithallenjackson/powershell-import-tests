@@ -1,0 +1,18 @@
+ARG BASE_IMAGE=ubuntu
+ARG BASE_IMAGE_TAG=22.04
+
+FROM ${BASE_IMAGE}:${BASE_IMAGE_TAG}
+
+ARG BASE_IMAGE=ubuntu
+ARG BASE_IMAGE_TAG=22.04
+ARG PACKAGE_VERSION=7.4.1-1.deb
+
+RUN apt-get update && apt-get upgrade -y && apt-get install curl -y && \
+    curl -sSL -O https://packages.microsoft.com/config/${BASE_IMAGE}/${BASE_IMAGE_TAG}/packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    rm packages-microsoft-prod.deb && \
+    apt-get update && \
+    apt-get install powershell=${PACKAGE_VERSION}-1.deb -y && \
+    rm -rf /var/cache/apt/archives /var/lib/apt/lists/*
+
+CMD ["pwsh"]
